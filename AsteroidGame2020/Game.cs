@@ -56,7 +56,14 @@ namespace AsteroidGame
                 __GameObjects[i] = new Star(
                     new Point(600, i * 20),
                     new Point(-i, 0),
-                    20); 
+                    20); //пропали большие звезды??
+
+            for (var i = __GameObjects.Length / 3; i < __GameObjects.Length; i++)
+                __GameObjects[i] = new SmallStar(
+                    new Point(600, i * 20),
+                    new Point(-i, 0),
+                    5);
+
 
 
 
