@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AsteroidGame2020
+namespace AsteroidGame
 {
     static class Program
     {
@@ -23,7 +23,14 @@ namespace AsteroidGame2020
 
             form.Show();
 
+            Game.Initialize(form);
+            Game.Load();
+            Game.Draw();
+
             Application.Run(form);
         }
+
+
     }
 }
+
