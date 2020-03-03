@@ -8,11 +8,11 @@ using AsteroidGame;
 
 namespace AsteroidGame.VisualObjects
 {
-    public class ImageObject : VisualObject
+    public abstract class ImageObject : VisualObject
     {
         private Image _Image;
 
-        public ImageObject(Point Position, Point Direction, Size Size, Image Image) : base(Position, Direction, Size)
+        protected ImageObject(Point Position, Point Direction, Size Size, Image Image) : base(Position, Direction, Size)
         {
             _Image = Image;
         }
