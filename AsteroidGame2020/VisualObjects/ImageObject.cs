@@ -20,7 +20,7 @@ namespace AsteroidGame.VisualObjects
         public override void Draw(Graphics g)
         {
             var position = new PointF(_Position.X, _Position.Y);
-            g.DrawImage(_Image, _Position.X, _Position.Y, _Size.Width, _Size.Height);
+            g.DrawImage(_Image, Rect);
         }
     }
 }

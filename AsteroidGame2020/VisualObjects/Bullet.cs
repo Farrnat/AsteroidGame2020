@@ -1,4 +1,5 @@
 ﻿using AsteroidGame.VisualObjects;
+using AsteroidGame2020.VisualObjects.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AsteroidGame2020.VisualObjects
 {
-    public class Bullet : VisualObject
+    public class Bullet : CollisionObject
     {
         private const int __BulletSizeX = 20;
         private const int __BulletSizeY = 5;
@@ -17,13 +18,16 @@ namespace AsteroidGame2020.VisualObjects
         {
         }
 
+        
+
         public override void Draw(Graphics g)
         {
             //g.FillEllipse(Brushes.Red, _Position.X, _Position.Y, _Size.Width, _Size.Height);
-           // g.DrawEllipse(Pens.White, _Position.X, _Position.Y, _Size.Width, _Size.Height);
+            // g.DrawEllipse(Pens.White, _Position.X, _Position.Y, _Size.Width, _Size.Height);
 
-             g.FillEllipse(Brushes.Red, new Rectangle(_Position, _Size));
-            g.DrawEllipse(Pens.White, new Rectangle(_Position, _Size));
+            var rect = Rect;
+             g.FillEllipse(Brushes.Red, rect);
+            g.DrawEllipse(Pens.White, rect);
         }
 
         public override void Update()
