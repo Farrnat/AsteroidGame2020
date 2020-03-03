@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AsteroidGame.VisualObjects;
 using AsteroidGame2020.VisualObjects;
+using AsteroidGame2020.VisualObjects.Interfaces;
 
 namespace AsteroidGame
 {
@@ -81,7 +82,7 @@ namespace AsteroidGame
                    new Point(-rnd.Next(0, star_max_speed), 0),
                      smallstars_size));
 
-            const int asteroids_count = 10;
+            const int asteroids_count = 15;
             const int asteroid_size = 25;
             const int asteroid_max_speed = 20;
             for (var i = 0; i < asteroids_count; i++)
@@ -112,7 +113,7 @@ namespace AsteroidGame
             //g.FillEllipse(Brushes.Red, new Rectangle(100, 50, 70, 120));
 
             foreach (var visual_object in __GameObjects)
-                visual_object.Draw(g);
+                visual_object?.Draw(g);
 
             __Bullet.Draw(g);
 
@@ -122,11 +123,26 @@ namespace AsteroidGame
         public static void Update()
         {
             foreach (var visual_object in __GameObjects)
-                visual_object.Update();
+                visual_object?.Update();
 
             __Bullet.Update();
             if (__Bullet.Position.X > Width)
-                __Bullet = new Bullet(300);
+                __Bullet = new Bullet(new Random().Next(Width));
+
+            for (var i = 0; i < __GameObjects.Length; i++)
+            {
+                var obj = __GameObjects[i];
+                if (obj is ICollision)
+                {
+                    var collision_object = (ICollision)obj;
+                    if(__Bullet.CheckCollision(collision_object))
+                    {
+                        __Bullet = new Bullet(new Random().Next(Width));
+                        __GameObjects[i] = null;
+                        MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    }
+                }
+            }
         }
     }
 }
