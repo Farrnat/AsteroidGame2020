@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AsteroidGame.VisualObjects;
+using AsteroidGame2020.VisualObjects;
 
 namespace AsteroidGame
 {
@@ -46,29 +48,42 @@ namespace AsteroidGame
         private static VisualObject[] __GameObjects;
         public static void Load()
         {
-            __GameObjects = new VisualObject[30];
-            for (var i = 0; i < __GameObjects.Length / 2; i++)
-                __GameObjects[i] = new VisualObject(
-                    new Point(600, i * 20),
-                    new Point(15 - i, 20 - i),
-                    new Size(20, 20));
+            var game_objects = new List<VisualObject>();
 
-           /* for (var i = __GameObjects.Length / 2; i < __GameObjects.Length; i++)
-                __GameObjects[i] = new Star(
-                    new Point(600, i * 20),
-                    new Point(-i, 0),
-                    20); пропали большие звезды??*/
+            var rnd = new Random();
 
-            for (var i = __GameObjects.Length / 2; i < __GameObjects.Length; i++)
-                __GameObjects[i] = new SmallStar(
-                    new Point(600, i * 20),
-                    new Point(-i, 0),
-                    5);
+            const int stars_count = 30;
+            const int star_size = 20;
+            const int star_max_speed = 20;
+            for (var i = 0; i < stars_count; i++)
+                game_objects.Add(new Star(
+                    new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                    new Point(-rnd.Next(0, star_max_speed), 0),
+                    star_size));
 
-            
+            const int ellipses_count = 20;
+            const int ellipses_size_x = 20;
+            const int ellipses_size_y = 30;
+            for (var i = 0; i < ellipses_count; i++)
+                game_objects.Add(new EllipseObject(
+                   new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                    new Point(-rnd.Next(0, star_max_speed), 0),
+                   new Size(ellipses_size_x, ellipses_size_y)));
 
-           // var image = AsteroidGame2020.Properties.Resources.Asteroid;
+            const int smallstars_count = 150;
+            const int smallstars_size = 5;
+            for (var i = 0; i < smallstars_count; i++)
+                game_objects.Add(new SmallStar(
+                     new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                   new Point(-rnd.Next(0, star_max_speed), 0),
+                     smallstars_size));
+
+
+
+            // var image = AsteroidGame2020.Properties.Resources.Asteroid;
             //var image_object = new ImageObject(new Point(0, 5), new Point(5, 7), new Size(70, 70), image);
+
+            __GameObjects = game_objects.ToArray();
 
         }
 
