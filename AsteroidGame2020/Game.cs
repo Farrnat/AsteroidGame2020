@@ -163,6 +163,7 @@ namespace AsteroidGame
             __Ship.Draw(g);
 
             g.DrawString($"Energy: {__Ship.Energy}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 10);
+           // g.DrawString($"Score: {__Bullet.Score}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 30); //Вылетает ошибка???
 
             __Buffer.Render();
         }
@@ -188,6 +189,8 @@ namespace AsteroidGame
                        // __Bullet = new Bullet(new Random().Next(Width));
                         __GameObjects[i] = null;
                         MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //__Bullet.Score = 10; изменить доступ??
+                        
                     }
                 }
             }
