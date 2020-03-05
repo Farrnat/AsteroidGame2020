@@ -21,9 +21,6 @@ namespace AsteroidGame
         private static Timer __Timer;
         private static int _Score = 0;
 
-      
-
-
         public static int Width { get; set; }
 
         public static int Height { get; set; }
@@ -66,7 +63,7 @@ namespace AsteroidGame
                 case Keys.Down:
                     __Ship.MoveDown();
                     break;
-
+                    
             }
         }
 
@@ -81,7 +78,6 @@ namespace AsteroidGame
         private static VisualObject[] __GameObjects;
         // private static Bullet __Bullet;
         private static List<Bullet> __Bullets = new List<Bullet>();
-        private static List<Asteroid> __Asteroids = new List<Asteroid>();
         public static void Load()
         {
             var game_objects = new List<VisualObject>();
@@ -97,14 +93,14 @@ namespace AsteroidGame
                     new Point(-rnd.Next(0, star_max_speed), 0),
                     star_size));
 
-            /* const int ellipses_count = 20;
-             const int ellipses_size_x = 20;
-             const int ellipses_size_y = 30;
-             for (var i = 0; i < ellipses_count; i++)
-                 game_objects.Add(new EllipseObject(
-                    new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
-                     new Point(-rnd.Next(0, star_max_speed), 0),
-                    new Size(ellipses_size_x, ellipses_size_y)));*/
+           /* const int ellipses_count = 20;
+            const int ellipses_size_x = 20;
+            const int ellipses_size_y = 30;
+            for (var i = 0; i < ellipses_count; i++)
+                game_objects.Add(new EllipseObject(
+                   new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                    new Point(-rnd.Next(0, star_max_speed), 0),
+                   new Size(ellipses_size_x, ellipses_size_y)));*/
 
             const int smallstars_count = 150;
             const int smallstars_size = 5;
@@ -123,12 +119,10 @@ namespace AsteroidGame
                     new Point(-rnd.Next(0, asteroid_max_speed), 0),
                     asteroid_size));
 
-          
-
             const int aids_count = 3;
             const int aid_size = 25;
             const int aid_max_speed = 30;
-            for (var i = 0; i < aids_count; i++)
+            for(var i =0; i<aids_count; i++)
                 game_objects.Add(new Aid(
                     new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
                     new Point(-rnd.Next(0, aid_max_speed), 0),
@@ -140,7 +134,7 @@ namespace AsteroidGame
 
 
             __GameObjects = game_objects.ToArray();
-            // __Bullet = new Bullet(200);
+           // __Bullet = new Bullet(200);
             __Ship = new SpaceShip(new Point(10, 400), new Point(5, 5), new Size(10, 10));
             __Ship.ShipDestroyed += OnShipDestroyed;
 
@@ -173,12 +167,10 @@ namespace AsteroidGame
             foreach (var bullet in __Bullets)
                 bullet.Draw(g);
 
-          
-
             __Ship.Draw(g);
 
             g.DrawString($"Energy: {__Ship.Energy}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 10);
-            g.DrawString($"Score: {_Score}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 30);
+            g.DrawString($"Score: {_Score}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 30); 
 
             __Buffer.Render();
         }
@@ -189,15 +181,14 @@ namespace AsteroidGame
                 visual_object?.Update();
 
             var bullets_to_remove = new List<Bullet>();
-            foreach (var bullet in __Bullets)
+            foreach(var bullet in __Bullets)
             {
                 bullet.Update();
                 if (bullet.Position.X > Width)
                     bullets_to_remove.Add(bullet);
             }
             //__Bullet?.Update();
-
-           
+            
 
             for (var i = 0; i < __GameObjects.Length; i++)
             {
@@ -205,12 +196,12 @@ namespace AsteroidGame
                 if (obj is ICollision)
                 {
                     var collision_object = (ICollision)obj;
-                    __Ship.CheckCollision(collision_object);
+                    __Ship.CheckCollision(collision_object); 
 
-                    foreach (var bullet in __Bullets.ToArray())
+                    foreach(var bullet in __Bullets.ToArray())
                     {
                         if (bullet.CheckCollision(collision_object))
-                        {
+                       {
                             bullets_to_remove.Add(bullet);
                             __GameObjects[i] = null;
                             MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -218,20 +209,18 @@ namespace AsteroidGame
                         }
                     }
 
-                    if (__Bullets.Any(b => b.CheckCollision(collision_object)))
+                  /* if(__Bullets.Any(b => b.CheckCollision(collision_object)))
                     {
                         __GameObjects[i] = null;
+                        MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
+                    foreach (var bullet in __Bullets.Where(b => b.CheckCollision(collision_object)))
+                        __Bullets.Remove(bullet);*/
                 }
-
             }
 
-            
-
-   foreach (var bullet in bullets_to_remove)
+            foreach (var bullet in bullets_to_remove)
                 __Bullets.Remove(bullet);
-
-            
         }
     }
 }
