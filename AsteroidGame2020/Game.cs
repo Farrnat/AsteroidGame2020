@@ -116,9 +116,19 @@ namespace AsteroidGame
                     new Point(-rnd.Next(0, asteroid_max_speed), 0),
                     asteroid_size));
 
+            const int aids_count = 3;
+            const int aid_size = 25;
+            const int aid_max_speed = 30;
+            for(var i =0; i<aids_count; i++)
+                game_objects.Add(new Aid(
+                    new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                    new Point(-rnd.Next(0, aid_max_speed), 0),
+                    aid_size));
 
 
-           
+
+
+
 
             __GameObjects = game_objects.ToArray();
             __Bullet = new Bullet(200);
@@ -153,6 +163,7 @@ namespace AsteroidGame
             __Ship.Draw(g);
 
             g.DrawString($"Energy: {__Ship.Energy}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 10);
+           // g.DrawString($"Score: {__Bullet.Score}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 30); //Вылетает ошибка???
 
             __Buffer.Render();
         }
@@ -178,6 +189,8 @@ namespace AsteroidGame
                        // __Bullet = new Bullet(new Random().Next(Width));
                         __GameObjects[i] = null;
                         MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        //__Bullet.Score = 10; изменить доступ??
+                        
                     }
                 }
             }

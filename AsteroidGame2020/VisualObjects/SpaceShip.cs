@@ -61,6 +61,10 @@ namespace AsteroidGame2020.VisualObjects
             {
                 ChangeEnergy(-asteroid.Power);
             }
+
+            if (is_collision && obj is Aid aid)
+                ChangeEnergy(+aid.Heal);
+
             return is_collision;
         }
         
