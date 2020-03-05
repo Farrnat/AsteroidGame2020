@@ -11,8 +11,7 @@ namespace AsteroidGame2020.VisualObjects
 {
     public class Bullet : CollisionObject
     {
-        private int _Score = 0;
-        public int Score => _Score;
+        
 
         private const int __BulletSizeX = 20;
         private const int __BulletSizeY = 5;

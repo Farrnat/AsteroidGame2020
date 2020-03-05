@@ -19,6 +19,7 @@ namespace AsteroidGame
         private static BufferedGraphicsContext __Context;
         private static BufferedGraphics __Buffer;
         private static Timer __Timer;
+        private static int _Score = 0;
 
         public static int Width { get; set; }
 
@@ -51,7 +52,8 @@ namespace AsteroidGame
             switch (E.KeyCode)
             {
                 case Keys.ControlKey:
-                    __Bullet = new Bullet(__Ship.Position.Y);
+                    //__Bullet = new Bullet(__Ship.Position.Y);
+                    __Bullets.Add(new Bullet(__Ship.Position.Y));
                     break;
 
                 case Keys.Up:
@@ -74,7 +76,8 @@ namespace AsteroidGame
         private static SpaceShip __Ship;
 
         private static VisualObject[] __GameObjects;
-        private static Bullet __Bullet;
+        // private static Bullet __Bullet;
+        private static List<Bullet> __Bullets = new List<Bullet>();
         public static void Load()
         {
             var game_objects = new List<VisualObject>();
@@ -131,7 +134,7 @@ namespace AsteroidGame
 
 
             __GameObjects = game_objects.ToArray();
-            __Bullet = new Bullet(200);
+           // __Bullet = new Bullet(200);
             __Ship = new SpaceShip(new Point(10, 400), new Point(5, 5), new Size(10, 10));
             __Ship.ShipDestroyed += OnShipDestroyed;
 
@@ -159,11 +162,15 @@ namespace AsteroidGame
             foreach (var visual_object in __GameObjects)
                 visual_object?.Draw(g);
 
-            __Bullet?.Draw(g);
+            //__Bullet?.Draw(g);
+
+            foreach (var bullet in __Bullets)
+                bullet.Draw(g);
+
             __Ship.Draw(g);
 
             g.DrawString($"Energy: {__Ship.Energy}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 10);
-           // g.DrawString($"Score: {__Bullet.Score}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 30); //Вылетает ошибка???
+            g.DrawString($"Score: {_Score}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 30); 
 
             __Buffer.Render();
         }
@@ -173,7 +180,14 @@ namespace AsteroidGame
             foreach (var visual_object in __GameObjects)
                 visual_object?.Update();
 
-            __Bullet?.Update();
+            var bullets_to_remove = new List<Bullet>();
+            foreach(var bullet in __Bullets)
+            {
+                bullet.Update();
+                if (bullet.Position.X > Width)
+                    bullets_to_remove.Add(bullet);
+            }
+            //__Bullet?.Update();
             
 
             for (var i = 0; i < __GameObjects.Length; i++)
@@ -183,17 +197,30 @@ namespace AsteroidGame
                 {
                     var collision_object = (ICollision)obj;
                     __Ship.CheckCollision(collision_object); 
-                    if(__Bullet != null && __Bullet.CheckCollision(collision_object))
+
+                    foreach(var bullet in __Bullets.ToArray())
                     {
-                        __Bullet = null;
-                       // __Bullet = new Bullet(new Random().Next(Width));
+                        if (bullet.CheckCollision(collision_object))
+                       {
+                            bullets_to_remove.Add(bullet);
+                            __GameObjects[i] = null;
+                            MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            _Score += 10;
+                        }
+                    }
+
+                  /* if(__Bullets.Any(b => b.CheckCollision(collision_object)))
+                    {
                         __GameObjects[i] = null;
                         MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        //__Bullet.Score = 10; изменить доступ??
-                        
                     }
+                    foreach (var bullet in __Bullets.Where(b => b.CheckCollision(collision_object)))
+                        __Bullets.Remove(bullet);*/
                 }
             }
+
+            foreach (var bullet in bullets_to_remove)
+                __Bullets.Remove(bullet);
         }
     }
 }
