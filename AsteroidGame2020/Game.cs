@@ -78,6 +78,7 @@ namespace AsteroidGame
         private static VisualObject[] __GameObjects;
         // private static Bullet __Bullet;
         private static List<Bullet> __Bullets = new List<Bullet>();
+         
         public static void Load()
         {
             var game_objects = new List<VisualObject>();
