@@ -20,6 +20,12 @@ namespace AsteroidGame
         private static BufferedGraphics __Buffer;
         private static Timer __Timer;
         private static int _Score = 0;
+        /*  const int asteroids_count = 1;
+        const int asteroid_size = 25;
+        const int asteroid_max_speed = 20;
+        static Random rnd = new Random();
+        private static int count_lvl = asteroids_count;*/
+
 
         public static int Width { get; set; }
 
@@ -74,7 +80,7 @@ namespace AsteroidGame
         }
 
         private static SpaceShip __Ship;
-
+        // private static List<Asteroid> __Asteroids = new List<Asteroid>();
         private static VisualObject[] __GameObjects;
         // private static Bullet __Bullet;
         private static List<Bullet> __Bullets = new List<Bullet>();
@@ -120,6 +126,15 @@ namespace AsteroidGame
                     new Point(-rnd.Next(0, asteroid_max_speed), 0),
                     asteroid_size));
 
+            /*  for (var i = 0; i < asteroids_count; i++)
+            {
+                __Asteroids.Add(new Asteroid(
+                    new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                    new Point(-rnd.Next(0, asteroid_max_speed), 0),
+                    asteroid_size));
+            }*/
+
+
             const int aids_count = 3;
             const int aid_size = 25;
             const int aid_max_speed = 30;
@@ -128,9 +143,6 @@ namespace AsteroidGame
                     new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
                     new Point(-rnd.Next(0, aid_max_speed), 0),
                     aid_size));
-
-
-
 
 
 
@@ -168,6 +180,10 @@ namespace AsteroidGame
             foreach (var bullet in __Bullets)
                 bullet.Draw(g);
 
+            //  foreach (var visual_object in __Asteroids)
+            //  visual_object?.Draw(g);
+
+
             __Ship.Draw(g);
 
             g.DrawString($"Energy: {__Ship.Energy}", new Font(FontFamily.GenericSerif, 14, FontStyle.Italic), Brushes.White, 10, 10);
@@ -189,7 +205,12 @@ namespace AsteroidGame
                     bullets_to_remove.Add(bullet);
             }
             //__Bullet?.Update();
-            
+
+            // var asteroid_to_remove = new List<Asteroid>();
+            //foreach (var visual_object in __Asteroids)
+            //  visual_object?.Update();
+
+
 
             for (var i = 0; i < __GameObjects.Length; i++)
             {
@@ -219,6 +240,38 @@ namespace AsteroidGame
                         __Bullets.Remove(bullet);*/
                 }
             }
+
+            /* foreach (var asteroid in __Asteroids.ToArray())
+             {
+                 __Ship.CheckCollision((ICollision)asteroid);
+
+                 foreach (var bullet in __Bullets.ToArray())
+                     if (bullet.CheckCollision((ICollision)asteroid))
+                     {
+                         bullets_to_remove.Add(bullet);
+                         asteroid_to_remove.Add(asteroid);
+                         MessageBox.Show("Астероид уничтожен!", "Столкновение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                         _Score += 10;
+
+                     }
+             }*/ //пуля бесконечно сталкивается с астероидом. Почему?
+
+
+            /* foreach (var asteroid in asteroid_to_remove)
+                 __Asteroids.Remove(asteroid);*/
+
+            /*  if (__Asteroids.Count < 1)
+              {
+                  count_lvl++;
+                  for (var i = 0; i < count_lvl; i++)
+                  {
+                      __Asteroids.Add(new Asteroid(
+                          new Point(rnd.Next(0, Width), rnd.Next(0, Height)),
+                      new Point(-rnd.Next(0, asteroid_max_speed), 0),
+                      asteroid_size));
+                  }
+              }*/
+
 
             foreach (var bullet in bullets_to_remove)
                 __Bullets.Remove(bullet);
