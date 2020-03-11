@@ -24,5 +24,24 @@ namespace TestWPFApp
         {
             InitializeComponent();
         }
+
+        public DepartEmpl departament { get; set; }
+
+        public DepartEmpl employee { get; set; }
+
+        private void buttonSaveEmployee_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void comboBoxDepartaments_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
